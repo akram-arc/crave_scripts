@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Remove existing local trees to prevent sync/merge conflicts
+rm -rf .repo/local_manifests/
+rm -rf vendor/gms/
+rm -rf device/realme/
+rm -rf kernel/realme/
+rm -rf vendor/realme/
+rm -rf device/mediatek/sepolicy_vndr/
+rm -rf hardware/mediatek/
+rm -rf vendor/oppo/camera/
+
+# Local TimeZone
+sudo rm -rf /etc/localtime
+sudo ln -s /usr/share/zoneinfo/Asia/Dhaka /etc/localtime
+
+# repo init rom
+repo init --depth=1 -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
+echo "=================="
+echo "Repo init success"
+echo "=================="
+
+# Local manifests
+git clone https://github.com/akram-arc/local_manifests.git -b lineage-23.2 .repo/local_manifests
+echo "============================"
+echo "Local manifest clone success"
+echo "============================"
+
+# Build Sync
+/opt/crave/resync.sh 
+echo "============="
+echo "Sync success"
+echo "============="
+
+# Export
+export BUILD_USERNAME=Akram 
+export BUILD_HOSTNAME=crave
+echo "======= Export Done ======"
+
+# Set up build environment
+source build/envsetup.sh
+echo "============="
+
+# Lunch
+breakfast nemo
+
+# Make cleaninstall
+make installclean
+echo "============="
+
+# Build
+brunch nemo
