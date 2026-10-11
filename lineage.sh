@@ -32,6 +32,22 @@ echo "============="
 echo "Sync success"
 echo "============="
 
+# Locked lk patches
+echo ">>> Cherry picking Locked lk patches..."
+cd system/core
+git remote add akram-arc https://github.com/akram-arc/android_system_core.git 2>/dev/null || true
+git fetch akram-arc
+git cherry-pick 4d55070a72e649c5d0615b84dc10183463f926a8 d72b2f13cc8906c3de6e22055de7ad8c05410ac3 52bcc2864705ea77f0eb6a6a41756d26943465cd
+cd ../..
+
+# Soong patches
+echo ">>> Cherry picking Soong patches..."
+cd build/soong
+git remote add Akram-cave https://github.com/Akram-cave/android_build_soong.git 2>/dev/null || true
+git fetch Akram-cave
+git cherry-pick de0956d891e81f4b23bc6d07ba7ec5a98b644763 f1b12313434119847b7e5d37b951f2e9882e61d1
+cd ../..
+
 # Export
 export BUILD_USERNAME=Akram 
 export BUILD_HOSTNAME=crave
