@@ -123,11 +123,11 @@ source build/envsetup.sh
 echo "============="
 
 # Lunch
-breakfast nemo
+breakfast RM6785
 
 # Make cleaninstall
 make installclean
 echo "============="
 
 # Build
-brunch nemo
+brunch RM6785
